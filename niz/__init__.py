@@ -35,6 +35,7 @@ def main():
         nix_expr = textwrap.dedent(f"""
             {{
                 pkgs = import (builtins.getFlake "nixpkgs") {{ }};
+                qyriad = builtins.getFlake "qyriad";
                 f = builtins.getFlake "{os.getcwd()}";
             }}
         """)
