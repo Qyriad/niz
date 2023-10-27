@@ -13,6 +13,11 @@ NEEDS_EXPR = [
     "repl",
 ]
 
+NEEDS_NO_LOGS =[
+    # nix repl breaks if you pass --log-format bar-with-logs >.>
+    "repl",
+]
+
 def main():
 
     parser = argparse.ArgumentParser("niz", add_help=False)
@@ -35,6 +40,10 @@ def main():
         """)
 
         nix_args.extend([ "--expr", nix_expr])
+
+    if args.action in NEEDS_NO_LOGS and "--log-format" not in rest:
+        nix_args.remove("--log-format")
+        nix_args.remove("bar-with-logs")
 
     quoted = " ".join([shlex.quote(arg) for arg in nix_args])
     print(f"\x1b[1m{quoted}\x1b[22m")
