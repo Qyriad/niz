@@ -7,4 +7,4 @@ name = "niz"
 version = "0.0.1"
 
 [project.scripts]
-cli-name = "niz:main"
+niz = "niz:main"
