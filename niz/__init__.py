@@ -25,6 +25,25 @@ def main():
 
     args, rest = parser.parse_known_args()
 
+    # `niz with` is a wrapper around `niz shell` that prepends `qyriad#` for each word in its next argument.
+    # e.g.: `niz with "gcc clang"` becomes `niz shell qyriad#gcc qyriad#clang`.
+    if args.action == "with":
+
+        # Remove the package list from the argument list, and split it.
+        pkgs = shlex.split(rest.pop(0))
+
+        # Replace the action with `shell`
+        args.action = "shell"
+
+        # Prepend the flakeref to each package in the package spec.
+        shell_args = [f"qyriad#{pkg}" for pkg in pkgs]
+
+        # Insert the shell args at the beginning of the argument list, like they would be for `niz shell`.
+        rest[0:0] = shell_args
+
+        # And then continue on the rest of the program as normal.
+
+
     nix_args = ["nix", "--log-format", "bar-with-logs", "--print-build-logs", "--verbose", args.action, *rest]
     nix_args = [arg for arg in nix_args if arg is not None]
 
