@@ -32,6 +32,7 @@
       in {
 
         packages.default = niz;
+        packages.niz = niz;
 
         devShells.default = pkgs.mkShell {
 
