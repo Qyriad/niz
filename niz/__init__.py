@@ -2,6 +2,7 @@ import argparse
 import os
 import shlex
 import shutil
+import sys
 import textwrap
 
 NEEDS_COMMAND = [
@@ -66,7 +67,7 @@ def main():
         nix_args.remove("bar-with-logs")
 
     quoted = " ".join([shlex.quote(arg) for arg in nix_args])
-    print(f"\x1b[1m{quoted}\x1b[22m")
+    print(f"\x1b[1m{quoted}\x1b[22m", file=sys.stderr)
 
     # Replace the Nix command with the full path.
     nix_cmd = shutil.which("nix")
