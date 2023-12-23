@@ -7,42 +7,22 @@
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = import nixpkgs { inherit system; };
-        inherit (builtins) attrValues;
 
-        niz =
-          let
-            pname = "niz";
-            version = "0.0.1";
-          in
-            pkgs.python3Packages.buildPythonPackage {
-              inherit pname version;
-
-              format = "pyproject";
-              src = ./.;
-
-              nativeBuildInputs = attrValues {
-                inherit (pkgs.python3Packages)
-                  setuptools
-                  wheel
-                ;
-              };
-          }
-        ;
+        niz = pkgs.callPackage ./niz.nix { };
 
       in {
 
         packages.default = niz;
-        packages.niz = niz;
 
         devShells.default = pkgs.mkShell {
 
-          inputsFrom = [ niz ];
+          inputsFrom = [
+            niz
+          ];
 
-          packages = attrValues {
-            inherit (pkgs)
-              pyright
-            ;
-          };
+          packages = [
+            pkgs.pyright
+          ];
 
         };
 
