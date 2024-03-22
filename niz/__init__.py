@@ -48,6 +48,9 @@ def main():
     nix_args = ["nix", "--log-format", "bar-with-logs", "--print-build-logs", "--verbose", args.action, *rest]
     nix_args = [arg for arg in nix_args if arg is not None]
 
+    if args.action == "build":
+        nix_args.append("--print-out-paths")
+
     if args.action in NEEDS_COMMAND and "--command" not in rest:
         nix_args.extend(["--command", "xonsh"])
 
