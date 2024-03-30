@@ -56,11 +56,13 @@ def main():
 
     if args.action in NEEDS_EXPR and "--expr" not in rest:
         nix_expr = textwrap.dedent(f"""
-            {{
-                pkgs = import (builtins.getFlake "nixpkgs") {{ }};
-                lib = (import (builtins.getFlake "nixpkgs") {{ }}).lib;
+            rec {{
+                nixpkgs = builtins.getFlake "nixpkgs";
+                pkgs = import nixpkgs {{ }};
+                lib = pkgs.lib;
                 qyriad = builtins.getFlake "qyriad";
-                f = builtins.getFlake "{os.getcwd()}";
+                f = builtins.getFlake "git+file:{os.getcwd()}";
+                currentSystem = builtins.currentSystem;
             }}
         """)
 
