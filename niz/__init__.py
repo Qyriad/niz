@@ -14,11 +14,6 @@ NEEDS_EXPR = [
     "repl",
 ]
 
-NEEDS_NO_LOGS =[
-    # nix repl breaks if you pass --log-format bar-with-logs >.>
-    "repl",
-]
-
 def main():
 
     parser = argparse.ArgumentParser("niz", add_help=False)
@@ -45,7 +40,7 @@ def main():
         # And then continue on the rest of the program as normal.
 
 
-    nix_args = ["nix", "--log-format", "bar-with-logs", "--print-build-logs", "--verbose", args.action, *rest]
+    nix_args = ["nix", "--print-build-logs", args.action, *rest]
     nix_args = [arg for arg in nix_args if arg is not None]
 
     if args.action == "build":
@@ -53,24 +48,6 @@ def main():
 
     if args.action in NEEDS_COMMAND and "--command" not in rest:
         nix_args.extend(["--command", "xonsh"])
-
-    if args.action in NEEDS_EXPR and "--expr" not in rest:
-        nix_expr = textwrap.dedent(f"""
-            rec {{
-                nixpkgs = builtins.getFlake "nixpkgs";
-                pkgs = import nixpkgs {{ }};
-                lib = pkgs.lib;
-                qyriad = builtins.getFlake "qyriad";
-                f = builtins.getFlake "git+file:{os.getcwd()}";
-                currentSystem = builtins.currentSystem;
-            }}
-        """)
-
-        nix_args.extend([ "--expr", nix_expr])
-
-    if args.action in NEEDS_NO_LOGS and "--log-format" not in rest:
-        nix_args.remove("--log-format")
-        nix_args.remove("bar-with-logs")
 
     quoted = " ".join([shlex.quote(arg) for arg in nix_args])
     print(f"\x1b[1m{quoted}\x1b[22m", file=sys.stderr)
