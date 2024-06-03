@@ -40,7 +40,7 @@ def main():
         # And then continue on the rest of the program as normal.
 
 
-    nix_args = ["nix", "--print-build-logs", args.action, *rest]
+    nix_args = ["nix", "--verbose", "--print-build-logs", args.action, *rest]
     nix_args = [arg for arg in nix_args if arg is not None]
 
     if args.action == "build":
