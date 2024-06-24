@@ -1,9 +1,8 @@
 {
   lib,
-  python3,
+  python3Packages,
 }: let
-  inherit (python3.pkgs) buildPythonApplication setuptools wheel
-  ;
+  inherit (python3Packages) buildPythonApplication setuptools wheel;
 in buildPythonApplication {
   pname = "niz";
   version = "0.0.1";
