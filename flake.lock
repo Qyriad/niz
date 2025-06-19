@@ -34,10 +34,27 @@
         "type": "github"
       }
     },
+    "qyriad-nur": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1750322964,
+        "narHash": "sha256-lY7UJk08yOSgHVcotbIhFHM2oI9HhyF1Nd7z1vpO3kc=",
+        "owner": "Qyriad",
+        "repo": "nur-packages",
+        "rev": "1df0e4a8a63c1c4e3ff13f4a7af52c9e84f83472",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Qyriad",
+        "repo": "nur-packages",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "flake-utils": "flake-utils",
-        "nixpkgs": "nixpkgs"
+        "nixpkgs": "nixpkgs",
+        "qyriad-nur": "qyriad-nur"
       }
     },
     "systems": {
