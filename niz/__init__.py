@@ -3,7 +3,6 @@ import os
 import shlex
 import shutil
 import sys
-import textwrap
 
 NEEDS_COMMAND = [
     "shell",
