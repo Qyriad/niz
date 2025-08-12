@@ -47,7 +47,8 @@ def main():
         nix_args.append("--print-out-paths")
 
     if args.action in NEEDS_COMMAND and "--command" not in rest:
-        nix_args.extend(["--command", shutil.which("xonsh")])
+        if xonsh := shutil.which("xonsh"):
+            nix_args.extend(["--command", xonsh])
 
     quoted = " ".join([shlex.quote(arg) for arg in nix_args])
     print(f"\x1b[1m{quoted}\x1b[22m", file=sys.stderr)
