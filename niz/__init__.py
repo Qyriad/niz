@@ -38,9 +38,17 @@ def main():
 
         # And then continue on the rest of the program as normal.
 
+    verbose = "--verbose"
+    action_parts = [args.action]
 
-    nix_args = ["nix", "--verbose", "--print-build-logs", '--log-format', 'multiline-with-logs', args.action, *rest]
-    nix_args = [arg for arg in nix_args if arg is not None]
+    if args.action == "find":
+        action_parts = ["search", "qyriad"]
+
+    if action_parts[0] == "search":
+        verbose = None
+
+    nix_args = ["nix", verbose, "--print-build-logs", '--log-format', 'multiline-with-logs', *action_parts, *rest]
+    nix_args = [str(arg) for arg in nix_args if arg is not None]
 
     if args.action == "build":
         nix_args.append("--print-out-paths")
