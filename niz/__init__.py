@@ -17,6 +17,7 @@ def main():
 
     parser = argparse.ArgumentParser("niz", add_help=False)
     parser.add_argument("action", nargs="?")
+    parser.add_argument("--no-command", action='store_true', help="don't add --command to shell/develop")
 
     args, rest = parser.parse_known_args()
 
@@ -53,7 +54,7 @@ def main():
     if args.action == "build":
         nix_args.append("--print-out-paths")
 
-    if args.action in NEEDS_COMMAND and "--command" not in rest:
+    if args.action in NEEDS_COMMAND and "--command" not in rest and not args.no_command:
         if xonsh := shutil.which("xonsh"):
             nix_args.extend(["--command", xonsh])
 
