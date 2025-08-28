@@ -19,6 +19,14 @@ def main():
     parser.add_argument("action", nargs="?")
     parser.add_argument("--no-command", action='store_true', help="don't add --command to shell/develop")
 
+    # HACK: `niz --help` and only exactly that will print niz's help instead of nix's help
+    try:
+        if sys.argv[1] == "--help":
+            parser.print_help()
+            return
+    except KeyError:
+        pass
+
     args, rest = parser.parse_known_args()
 
     # `niz with` is a wrapper around `niz shell` that prepends `qyriad#` for each word in its next argument.
