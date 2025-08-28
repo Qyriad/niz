@@ -28,5 +28,7 @@
       inputsFrom = [ niz ];
       packages = [ pkgs.pyright ];
     };
+
+    checks = niz.byPythonVersion;
   }); # outputs
 }
