@@ -56,6 +56,10 @@ def main():
     if action_parts[0] == "search":
         verbose = None
 
+    # FIXME: make "flake X" its own action kind or something
+    if args.action == "flake" and rest[0] == 'check':
+        verbose = None
+
     nix_args = ["nix", verbose, "--print-build-logs", '--log-format', 'multiline-with-logs', *action_parts, *rest]
     nix_args = [str(arg) for arg in nix_args if arg is not None]
 
